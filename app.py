@@ -40,7 +40,7 @@ This is a temporary script file.
 
 #exampl of the app created on streamlit
 
-mport streamlit as st
+import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
