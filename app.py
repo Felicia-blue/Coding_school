@@ -5,6 +5,13 @@ Spyder Editor
 This is a temporary script file.
 """
 
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+
 #import streamlit as st
 
 #st.title("Streamlit is amazing!")
@@ -39,6 +46,9 @@ This is a temporary script file.
 #st.plotly_chart(fig)
 
 #exampl of the app created on streamlit
+
+
+
 
 import streamlit as st
 import pandas as pd
@@ -131,6 +141,23 @@ st.write("The current color is", color)
 #fig = px.line(x=x, y=y, title="Sine Wave")
 #st.plotly_chart(fig)
 
+
+
+chart_data = pd.DataFrame(np.random.randn(200, 3), columns=["a", "b", "c"])
+
+st.vega_lite_chart(
+   chart_data,
+   {
+       "mark": {"type": "circle", "tooltip": True},
+       "encoding": {
+           "x": {"field": "a", "type": "quantitative"},
+           "y": {"field": "b", "type": "quantitative"},
+           "size": {"field": "c", "type": "quantitative"},
+           "color": {"field": "c", "type": "quantitative"},
+       },
+   },
+)
+
 # Add a section for publications
 st.header("Publications")
 uploaded_file = st.file_uploader("Upload a CSV of Publications", type="csv")
@@ -165,5 +192,3 @@ if st.button("Show Contact Email"):
     st.write(f"You can reach {user_name} at {email}.")
 else:
     st.write("Click the button to reveal contact information.")
-
- 
