@@ -40,10 +40,11 @@ This is a temporary script file.
 
 #exampl of the app created on streamlit
 
-import streamlit as st
+mport streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
+import pydeck as pdk
+#import plotly.express as px
 
 # Sidebar for user inputs
 st.sidebar.header("User Input Parameters")
@@ -67,31 +68,68 @@ st.write(f"**Name:** {user_name}")
 st.write(f"**Field of Research:** {field}")
 st.write(f"**Institution:** {institution}")
 
-# Create random data centered around Cape Town based on slider input
+
+
+# Sidebar input for number of random points
+num_points = st.sidebar.slider("Number of random points", 100, 2000, 1000)
+
+# Create random data centered around Cape Town based on the slider input
 df = pd.DataFrame(
     np.random.randn(num_points, 2) / [50, 50] + [33.9249, 18.4241],
     columns=["lat", "lon"],
 )
 
-# Mark Cape Town's exact location
+# Define Cape Town's exact location
 cape_town = pd.DataFrame({"lat": [33.9249], "lon": [18.4241]})
 
-# Combine random data with Cape Town location
-df_combined = pd.concat([df, cape_town])
+# Create a Pydeck layer for the random points (blueish color)
+layer_random = pdk.Layer(
+    "ScatterplotLayer",
+    data=df,
+    get_position="[lon, lat]",
+    get_color="[0, 100, 200, 160]",  # [R, G, B, Alpha] for random points
+    get_radius=100,
+    pickable=True,
+)
 
-# Display map with Cape Town's location
-st.map(df_combined)
+# Create a Pydeck layer for Cape Town's exact location (bright red)
+layer_ct = pdk.Layer(
+    "ScatterplotLayer",
+    data=cape_town,
+    get_position="[lon, lat]",
+    get_color="[255, 0, 0, 255]",  # Bright red color
+    get_radius=200,
+    pickable=True,
+)
+
+# Set the initial view state centered on Cape Town
+view_state = pdk.ViewState(
+    latitude=33.9249,
+    longitude=18.4241,
+    zoom=10,
+    pitch=0,
+)
+
+# Create the deck with both layers
+deck = pdk.Deck(
+    layers=[layer_random, layer_ct],
+    initial_view_state=view_state,
+    tooltip={"text": "Location: {lat}, {lon}"}
+)
+
+# Display the map in Streamlit
+st.pydeck_chart(deck)
 
 # Add a color picker widget
 color = st.color_picker("Pick A Color", "#00f900")
 st.write("The current color is", color)
 
 # Add an example Plotly chart widget
-st.header("Example Plot")
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-fig = px.line(x=x, y=y, title="Sine Wave")
-st.plotly_chart(fig)
+#st.header("Example Plot")
+#x = np.linspace(0, 10, 100)
+#y = np.sin(x)
+#fig = px.line(x=x, y=y, title="Sine Wave")
+#st.plotly_chart(fig)
 
 # Add a section for publications
 st.header("Publications")
@@ -127,3 +165,5 @@ if st.button("Show Contact Email"):
     st.write(f"You can reach {user_name} at {email}.")
 else:
     st.write("Click the button to reveal contact information.")
+
+ 
