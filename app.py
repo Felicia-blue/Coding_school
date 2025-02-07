@@ -1,55 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
-
-#import streamlit as st
-
-#st.title("Streamlit is amazing!")
-#st.title("hello Fesh")
-#st.write("Lets create an app Feli...")
-
-
-#number = st.slider("Pick a number", 1,200)
-#st. write ("Pick a  {number}")
-
-# My Plot of data
-
-#import pandas as pd
-#import plotly.express as px
-#import streamlit as st
-
-#st.title("Title heading")
-
-#st.write("Hello, Streamlit!")
-
-#st.header("Sample Data")
-
-#data = pd.DataFrame({"x": [1, 2, 3], "y": [10, 20, 30]})
-
-# Display the data in the Streamlit app
-#st.write(data)
-
-# Create a Plotly figure
-#fig = px.line(data, x="x", y="y", title="Simple Plotly Example")
-
-# Display the plot in the Streamlit app
-#st.plotly_chart(fig)
-
-#exampl of the app created on streamlit
-
-
-
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -78,10 +26,18 @@ st.write(f"**Name:** {user_name}")
 st.write(f"**Field of Research:** {field}")
 st.write(f"**Institution:** {institution}")
 
-
-
-# Sidebar input for number of random points
-num_points = st.sidebar.slider("Number of random points", 100, 2000, 1000)
+# Add an "About My Research" section
+st.header("About My Research")
+st.write("""
+I am a dedicated bioinformatics researcher specializing in computational health informatics.
+My work involves leveraging advanced data analytics, machine learning, and deep learning techniques 
+to unravel complex biological problems. I focus on:
+- **Genomic and Proteomic Data Analysis:** Extracting meaningful insights from large-scale biological data.
+- **Deep Learning for Medical Imaging:** Developing models to classify and predict disease subtypes.
+- **Molecular Modeling:** Utilizing computational methods to simulate protein-ligand interactions 
+  for drug discovery and therapeutic development.
+I am committed to translating these data-driven insights into tangible healthcare solutions.
+""")
 
 # Create random data centered around Cape Town based on the slider input
 df = pd.DataFrame(
@@ -133,30 +89,6 @@ st.pydeck_chart(deck)
 # Add a color picker widget
 color = st.color_picker("Pick A Color", "#00f900")
 st.write("The current color is", color)
-
-# Add an example Plotly chart widget
-#st.header("Example Plot")
-#x = np.linspace(0, 10, 100)
-#y = np.sin(x)
-#fig = px.line(x=x, y=y, title="Sine Wave")
-#st.plotly_chart(fig)
-
-
-
-chart_data = pd.DataFrame(np.random.randn(200, 3), columns=["a", "b", "c"])
-
-st.vega_lite_chart(
-   chart_data,
-   {
-       "mark": {"type": "circle", "tooltip": True},
-       "encoding": {
-           "x": {"field": "a", "type": "quantitative"},
-           "y": {"field": "b", "type": "quantitative"},
-           "size": {"field": "c", "type": "quantitative"},
-           "color": {"field": "c", "type": "quantitative"},
-       },
-   },
-)
 
 # Add a section for publications
 st.header("Publications")
