@@ -2,42 +2,51 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
-#import plotly.express as px
+
+# Set Streamlit page config with title and favicon
+st.set_page_config(page_title="Bioinformatics Inc", page_icon="🧬", layout="wide")
 
 # Sidebar for user inputs
-st.sidebar.header("User Input Parameters")
-user_name = st.sidebar.text_input("Enter your name", "Dr. Felicia Khoza")
-num_points = st.sidebar.slider("Number of random points on map", 100, 2000, 1000)
-theme_option = st.sidebar.selectbox("Choose a theme", ["Light", "Dark"])
+st.sidebar.header("🔧 User Input Parameters")
+user_name = st.sidebar.text_input("👤 Enter your name", "Dr. Felicia Khoza")
+num_points = st.sidebar.slider("📍 Number of random points on map", 100, 2000, 1000)
+theme_option = st.sidebar.selectbox("🎨 Choose a theme", ["Light", "Dark"])
 
-# Apply theme if desired (this example just displays the choice)
 st.sidebar.write(f"You selected the **{theme_option}** theme.")
 
-# Title of the app
-st.title("Bioinformatics Inc")
+# 🎯 Title of the app
+st.title("🧬 Bioinformatics Inc")
+st.markdown("### 🔬 Advancing Science with Data & AI")
 
-# Basic information
-field = "Bioinformatics"
-institution = "University of Cape Town"
+# 🎓 Basic Profile Information Section
+with st.container():
+    st.subheader("📜 **Researcher Resume**")
+    
+    # Use two columns for layout
+    col1, col2 = st.columns(2)
 
-# Display basic profile information
-st.header("Researcher Resume")
-st.write(f"**Name:** {user_name}")
-st.write(f"**Field of Research:** {field}")
-st.write(f"**Institution:** {institution}")
+    with col1:
+        st.info(f"👤 **Name:** {user_name}")
+        st.success("🎓 **Field of Research:** Bioinformatics")
 
-# Add an "About My Research" section
-st.header("About My Research")
+    with col2:
+        st.warning("🏛 **Institution:** University of Cape Town")
+
+# 📖 About My Research Section
+st.subheader("🔍 About My Research")
 st.write("""
-I am a dedicated bioinformatics researcher specializing in computational health informatics.
-My work involves leveraging advanced data analytics, machine learning, and deep learning techniques 
+I am a dedicated **bioinformatics researcher** specializing in **computational health informatics**.
+My work involves leveraging **advanced data analytics, machine learning, and deep learning** 
 to unravel complex biological problems. I focus on:
-- **Genomic and Proteomic Data Analysis:** Extracting meaningful insights from large-scale biological data.
-- **Deep Learning for Medical Imaging:** Developing models to classify and predict disease subtypes.
-- **Molecular Modeling:** Utilizing computational methods to simulate protein-ligand interactions 
-  for drug discovery and therapeutic development.
-I am committed to translating these data-driven insights into tangible healthcare solutions.
+
+✅ **Genomic & Proteomic Data Analysis**: Extracting meaningful insights from large-scale biological data.  
+✅ **Deep Learning for Medical Imaging**: Developing models to classify and predict disease subtypes.  
+✅ **Molecular Modeling**: Using computational methods to simulate **protein-ligand interactions** for drug discovery.  
 """)
+
+
+# 🗺️ Mapping Section
+st.subheader("🗺️ **Geospatial Data Visualization**")
 
 # Create random data centered around Cape Town based on the slider input
 df = pd.DataFrame(
@@ -86,41 +95,47 @@ deck = pdk.Deck(
 # Display the map in Streamlit
 st.pydeck_chart(deck)
 
-# Add a color picker widget
-color = st.color_picker("Pick A Color", "#00f900")
-st.write("The current color is", color)
 
-# Add a section for publications
-st.header("Publications")
-uploaded_file = st.file_uploader("Upload a CSV of Publications", type="csv")
+# 🎨 Color Picker
+st.subheader("🎨 Customize the App Theme")
+color = st.color_picker("Pick A Theme Color", "#00f900")
+st.write("🎨 **Selected color:**", color)
+
+
+# 📚 Publications Section
+st.subheader("📚 **Publications**")
+uploaded_file = st.file_uploader("📂 Upload a CSV of Publications", type="csv")
 
 if uploaded_file:
     publications = pd.read_csv(uploaded_file)
     st.dataframe(publications)
 
-    # Filtering publications by a keyword
-    keyword = st.text_input("Filter by keyword", "")
+    # 🔎 Filtering publications by a keyword
+    keyword = st.text_input("🔎 Search for publications by keyword", "")
     if keyword:
         filtered = publications[
             publications.apply(lambda row: keyword.lower() in row.astype(str).str.lower().values, axis=1)
         ]
-        st.write(f"Filtered Results for '{keyword}':")
+        st.write(f"🔍 **Filtered Results for '{keyword}':**")
         st.dataframe(filtered)
     else:
-        st.write("Showing all publications")
+        st.write("Showing all publications 📖")
 
-    # Visualize publication trends if a 'Year' column exists
-    st.header("Publication Trends")
+    # 📊 Visualizing publication trends if a 'Year' column exists
+    st.subheader("📊 **Publication Trends**")
     if "Year" in publications.columns:
         year_counts = publications["Year"].value_counts().sort_index()
         st.bar_chart(year_counts)
     else:
-        st.write("The CSV does not have a 'Year' column to visualize trends.")
+        st.write("❌ The CSV does not have a 'Year' column to visualize trends.")
 
-# Add a contact section with a button to reveal contact details
-st.header("Contact Information")
-if st.button("Show Contact Email"):
+# 📧 Contact Section
+st.subheader("📞 **Contact Information**")
+if st.button("📩 Show Contact Email"):
     email = "feliciakhoza2@gmail.com"
-    st.write(f"You can reach {user_name} at {email}.")
+    st.success(f"📧 You can reach **{user_name}** at **{email}**.")
 else:
     st.write("Click the button to reveal contact information.")
+
+
+    
